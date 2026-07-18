@@ -1,0 +1,65 @@
+<form action="/find-deals" method="POST" style="font-family: sans-serif; line-height: 2;">
+
+    <!-- 1. Find Product Input Field -->
+    <div>
+        <label style="font-weight: bold;">Find Product / SKU Name:</label><br>
+        <input type="text" name="product" th:value="${product ?: 'Serum Barrier Core'}" style="padding: 6px; width: 300px;">
+    </div>
+
+    <!-- 2. Port Input Field -->
+    <div style="margin-top: 15px;">
+        <label style="font-weight: bold;">Port to be Imported to:</label><br>
+        <input type="text" name="destinationPort" th:value="${destinationPort ?: 'Melbourne'}" placeholder="e.g. Melbourne, Dublin" style="padding: 6px; width: 300px;">
+    </div>
+
+    <!-- 3. The Literal Search / Action Trigger Button -->
+    <div style="margin-top: 20px;">
+        <button type="submit" style="padding: 10px 20px; font-weight: bold; cursor: pointer; background-color: #ef4444; color: white; border: none; border-radius: 4px;">
+            Run Recommendation Engine ⚡
+        </button>
+    </div>
+
+</form>
+<!-- Paste this simple table structure directly underneath your </form> tag -->
+<div style="margin-top: 35px; font-family: sans-serif;">
+
+    <h2>🏁 Ranked Port Alternatives (Cheapest is #1)</h2>
+
+    <table style="width: 100%; border-collapse: separate; border-spacing: 20px;">
+        <!-- Row 1: 👑 Top Deal and 2nd Place -->
+        <tr>
+            <!-- Box 1 (Crown Winner) -->
+            <td style="border: 2px solid green; padding: 20px; width: 50%; vertical-align: top; background-color: #f0fdf4;">
+                <div style="font-size: 28px;">👑 Top Deal</div>
+                <h3 th:text="${topDeal != null ? topDeal.originPort + ' to ' + topDeal.destinationPort : 'Awaiting Engine Execution...'}">Country 1</h3>
+                <p th:if="${topDeal != null}"><strong>Landed Cost:</strong> $<span th:text="${#numbers.formatDecimal(topDeal.calculatedFinalCost, 1, 2)}"></span></p>
+                <small th:if="${topDeal != null}" th:text="'Incoterm: ' + ${topDeal.incoterm} + ' | Transit: ' + ${topDeal.transitDays} + ' days'"></small>
+            </td>
+
+            <!-- Box 2 (2nd Place) -->
+            <td style="border: 1px solid #cbd5e1; padding: 20px; width: 50%; vertical-align: top;">
+                <div>🥈 2nd Place</div>
+                <h3 th:text="${secondDeal != null ? secondDeal.originPort + ' to ' + secondDeal.destinationPort : 'No Data Available'}">Country 2</h3>
+                <p th:if="${secondDeal != null}"><strong>Landed Cost:</strong> $<span th:text="${#numbers.formatDecimal(secondDeal.calculatedFinalCost, 1, 2)}"></span></p>
+            </td>
+        </tr>
+
+        <!-- Row 2: 3rd and 4th Place -->
+        <tr>
+            <!-- Box 3 (3rd Place) -->
+            <td style="border: 1px solid #cbd5e1; padding: 20px; vertical-align: top;">
+                <div>🥉 3rd Place</div>
+                <h3 th:text="${thirdDeal != null ? thirdDeal.originPort + ' to ' + thirdDeal.destinationPort : 'No Data Available'}">Country 3</h3>
+                <p th:if="${thirdDeal != null}"><strong>Landed Cost:</strong> $<span th:text="${#numbers.formatDecimal(thirdDeal.calculatedFinalCost, 1, 2)}"></span></p>
+            </td>
+
+            <!-- Box 4 (4th Place) -->
+            <td style="border: 1px solid #cbd5e1; padding: 20px; vertical-align: top;">
+                <div>4th Place</div>
+                <h3 th:text="${fourthDeal != null ? fourthDeal.originPort + ' to ' + fourthDeal.destinationPort : 'No Data Available'}">Country 4</h3>
+                <p th:if="${fourthDeal != null}"><strong>Landed Cost:</strong> $<span th:text="${#numbers.formatDecimal(fourthDeal.calculatedFinalCost, 1, 2)}"></span></p>
+            </td>
+        </tr>
+    </table>
+
+</div>
