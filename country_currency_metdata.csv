@@ -1,0 +1,195 @@
+﻿country_name,country_symbol,native_name,currency_symbol,current_conversion,continent,currency_name
+Afghanistan,AF,Afghānistān,؋,70.5,Asia,AFN
+Albania,AL,Shqipëria,L,93.4,Europe,ALL
+Algeria,DZ,Al-Jaza'ir,د.ج,134.1,Africa,DZD
+Andorra,AD,Andorra,€,0.9321,Europe,EUR
+Angola,AO,Angola,Kz,850.2,Africa,AOA
+Antigua and Barbuda,AG,Antigua and Barbuda,$,2.7,North America,XCD
+Argentina,AR,Argentina,$,905.1,South America,ARS
+Armenia,AM,Hayastan,֏,388.5,Asia,AMD
+Australia,AU,Australia,$,1.5024,Oceania,AUD
+Austria,AT,Österreich,€,0.9321,Europe,EUR
+Azerbaijan,AZ,Azərbaycan,₼,1.7,Asia,AZN
+Bahamas,BS,Bahamas,$,1,North America,BSD
+Bahrain,BH,Al-Bahrayn,.د.ب,0.376,Asia,BHD
+Bangladesh,BD,Bangladesh,৳,117.5,Asia,BDT
+Barbados,BB,Barbados,$,2.0195,North America,BBD
+Belarus,BY,Belarus,Br,3.23,Europe,BYN
+Belgium,BE,België,€,0.9321,Europe,EUR
+Belize,BZ,Belize,BZ$,2,North America,BZD
+Benin,BJ,Bénin,CFA,608.5,Africa,XOF
+Bhutan,BT,Druk Yul,Nu.,83.52,Asia,BTN
+Bolivia,BO,Bolivia,Bs.,6.91,South America,BOB
+Bosnia and Herzegovina,BA,Bosna i Hercegovina,KM,1.8228,Europe,BAM
+Botswana,BW,Botswana,P,13.65,Africa,BWP
+Brazil,BR,Brasil,R$,5.432,South America,BRL
+Brunei Darussalam,BN,Brunei,$,1.353,Asia,BND
+Bulgaria,BG,Bulgariya,лв,1.8228,Europe,BGN
+Burkina Faso,BF,Burkina Faso,CFA,608.5,Africa,XOF
+Burundi,BI,Uburundi,FBu,2850,Africa,BIF
+Cabo Verde,CV,Cabo Verde,Esc,102.77,Africa,CVE
+Cambodia,KH,Kâmpŭchéa,៛,4115,Asia,KHR
+Cameroon,CM,Cameroun,CFA,608.5,Africa,XAF
+Canada,CA,Canada,$,1.3685,North America,CAD
+Central African Republic,CF,Centrafrique,CFA,608.5,Africa,XAF
+Chad,TD,Tchad,CFA,608.5,Africa,TD
+Chile,CL,Chile,$,930,South America,CLP
+China,CN,Zhongguo,¥,7.256,Asia,CNY
+Colombia,CO,Colombia,$,4150,South America,COP
+Comoros,KM,Komori,CF,458.56,Africa,KMF
+Congo,CG,Congo,CFA,608.5,Africa,XAF
+Costa Rica,CR,Costa Rica,₡,525.4,North America,CRC
+Côte d'Ivoire,CI,Côte d'Ivoire,CFA,608.5,Africa,XOF
+Croatia,HR,Hrvatska,$,0.9321,Europe,EUR
+Cuba,CU,Cuba,$,24,North America,CUP
+Cyprus,CY,Kypros,€,0.9321,Europe,EUR
+Czech Republic,CZ,Česká republika,Kč,23.2,Europe,CZK
+Democratic Republic of the Congo,CD,République démocratique du Congo,FC,2800,Africa,CDF
+Denmark,DK,Danmark,kr,6.954,Europe,DKK
+Djibouti,DJ,Djibouti,Fdj,177.72,Africa,DJF
+Dominica,DM,Dominica,$,2.7,North America,XCD
+Dominican Republic,DO,República Dominicana,RD$,59.2,North America,DOP
+Ecuador,EC,Ecuador,$,1,South America,USD
+Egypt,EG,Misr,ج.م,47.65,Africa,EGP
+El Salvador,SV,El Salvador,$,1,North America,USD
+Equatorial Guinea,GQ,Guinea Ecuatorial,CFA,608.5,Africa,XAF
+Eritrea,ER,Ertra,Nfk,15,Africa,ERN
+Estonia,EE,Eesti,€,0.9321,Europe,EUR
+Eswatini,SZ,eSwatini,L,17.98,Africa,SZL
+Ethiopia,ET,Ityop'ya,Br,57.3,Africa,ETB
+Fiji,FJ,Viti,FJ$,2.24,Oceania,FJD
+Finland,FI,Suomi,€,0.9321,Europe,EUR
+France,FR,France,€,0.9321,Europe,EUR
+Gabon,GA,Gabon,CFA,608.5,Africa,XAF
+Gambia,GM,Gambia,D,67.95,Africa,GMD
+Georgia,GE,Sakartvelo,₾,2.72,Asia,GEL
+Germany,DE,Deutschland,€,0.9321,Europe,EUR
+Ghana,GH,Gaana,₵,14.95,Africa,GHS
+Greece,GR,Hellas,€,0.9321,Europe,EUR
+Grenada,GD,Grenada,$,2.7,North America,XCD
+Guatemala,GT,Guatemala,Q,7.76,North America,GTQ
+Guinea,GN,Guinée,FG,8620,Africa,GNF
+Guinea-Bissau,GW,Guiné-Bissau,CFA,608.5,Africa,XOF
+Guyana,GY,Guyana,$,209.15,South America,GYD
+Haiti,HT,Haïti,G,132.5,North America,HTG
+Honduras,HN,Honduras,L,24.72,North America,HNL
+Hungary,HU,Magyarország,Ft,370,Europe,HUF
+Iceland,IS,Ísland,kr,139.3,Europe,ISK
+India,IN,Bharat,₹,83.52,Asia,INR
+Indonesia,ID,Indonesia,Rp,16450,Asia,IDR
+Iran,IR,Irān,﷼,42000,Asia,IRR
+Iraq,IQ,Al-Iraq,ع.د,1310,Asia,IQD
+Ireland,IE,Éire,€,0.9321,Europe,EUR
+Israel,IL,Yisra'el,₪,3.72,Asia,ILS
+Italy,IT,Italia,€,0.9321,Europe,EUR
+Jamaica,JM,Jamaica,J$,156.25,North America,JMD
+Japan,JP,Nippon,¥,158.8,Asia,JPY
+Jordan,JO,Al-Urdun,د.א,0.709,Asia,JOD
+Kazakhstan,KZ,Qazaqstan,₸,452.5,Asia,KZT
+Kenya,KE,Kenya,Ksh,130,Africa,KES
+Kiribati,KI,Kiribati,$,1.5024,Oceania,AUD
+Kuwait,KW,Al-Kuwait,د.ك,0.307,Asia,KWD
+Kyrgyzstan,KG,Kyrgyzstan,сom,87.2,Asia,KGS
+Lao People's Democratic Republic,LA,Laos,₭,21800,Asia,LAK
+Latvia,LV,Latvija,€,0.9321,Europe,EUR
+Lebanon,LB,Lubnān,ل.ل,89500,Asia,LBP
+Lesotho,LS,Lesotho,L,17.98,Africa,LSL
+Liberia,LR,Liberia,$,1,North America,USD
+Libya,LY,Lībyā,ل.د,4.84,Africa,LYD
+Liechtenstein,LI,Liechtenstein,Fr,0.8935,Europe,CHF
+Lithuania,LT,Lietuva,Lt,0.9321,Europe,EUR
+Luxembourg,LU,Lëtzebuerg,L,0.9321,Europe,EUR
+Madagascar,MG,Madagasikara,FMg,4510,Africa,MGA
+Malawi,MW,Malawi,MK,1730,Africa,MWK
+Malaysia,MY,Malaysia,RM,4.712,Asia,MYR
+Maldives,MV,Dhivehiraajjeyge,Rf,15.42,Asia,MVR
+Mali,ML,Mali,CFA,608.5,Africa,XOF
+Malta,MT,Malta,€,0.9321,Europe,EUR
+Marshall Islands,MH,Majeļ,$,1,Oceania,USD
+Mauritania,MR,Muritaniya,UM,39.6,Africa,MRU
+Mauritius,MU,Maurice,₨,46.3,Africa,MUR
+Mexico,MX,México,$,18.15,North America,MXN
+Micronesia,FM,Micronesia,$,1,Oceania,USD
+Moldova,MD,Moldova,L,17.85,Europe,MDL
+Monaco,MC,Monaco,€,0.9321,Europe,EUR
+Mongolia,MN,Mongol Uls,₮,3380,Asia,MNT
+Montenegro,ME,Crna Gora,€,0.9321,Europe,EUR
+Morocco,MA,Al-Maghrib,د.م.,10.02,Africa,MAD
+Mozambique,MZ,Moçambique,MT,63.25,Africa,MZN
+Myanmar,MM,Myanma,K,2100,Asia,MMK
+Namibia,NA,Namibia,$,17.98,Africa,NAD
+Nauru,NR,Naoero,$,1.5024,Oceania,AUD
+Nepal,NP,Nepāl,₨,133.65,Asia,NPR
+Netherlands,NL,Nederland,€,0.9321,Europe,EUR
+New Zealand,NZ,Aotearoa,$,1.634,Oceania,NZD
+Nicaragua,NI,Nicaragua,C$,36.62,North America,NIO
+Niger,NE,Niger,CFA,608.5,Africa,XOF
+Nigeria,NG,Nigeria,ден,1480,Africa,NGN
+North Korea,KP,Chosŏn,kr,130,Asia,KPW
+North Macedonia,MK,Severna Makedonija,ر.ع.,57.32,Europe,MKD
+Norway,NO,Norge,₨,10.55,Europe,NOK
+Oman,OM,ʿUmān,$,0.3845,Asia,OMR
+Pakistan,PK,Pākistān,$,278.5,Asia,PKR
+Palau,PW,Belau,K,1,Oceania,USD
+Panama,PA,Panamá,₲,1,North America,USD
+Papua New Guinea,PG,Papua Niugini,S/.,,Oceania,PGK
+Paraguay,PY,Paraguay,₱,,South America,PYG
+Peru,PE,Perú,zł,,South America,PEN
+Philippines,PH,Pilipinas,€,,Asia,PHP
+Poland,PL,Polska,ر.ق,,Europe,PLN
+Portugal,PT,Portugal,lei,,Europe,EUR
+Qatar,QA,Qatar,₽,,Asia,QAR
+Romania,RO,România,FRw,,Europe,RON
+Russia,RU,Rossiya,$,,Europe,RUB
+Rwanda,RW,Uurwanda,$,,Africa,RWF
+Saint Kitts and Nevis,KN,Saint Kitts and Nevis,$,,North America,XCD
+Saint Lucia,LC,Saint Lucia,T$,,North America,XCD
+Saint Vincent and the Grenadines,VC,Saint Vincent and the Grenadines,€,,North America,XCD
+Samoa,WS,Sāmoa,Db,,Oceania,WST
+San Marino,SM,San Marino,ر.س,,Europe,EUR
+Sao Tome and Principe,ST,São Tomé e Príncipe,CFA,,Africa,STN
+Saudi Arabia,SA,Al-Arabiya as-Saudiya,din.,,Asia,SAR
+Senegal,SN,Sénégal,₨,,Africa,XOF
+Serbia,RS,Srbija,Le,,Europe,RSD
+Seychelles,SC,Sesel,S$,,Africa,SCR
+Sierra Leone,SL,Sierra Leone,€,,Africa,SLE
+Singapore,SG,Singapura,€,,Asia,SGD
+Slovakia,SK,Slovensko,SI$,,Europe,EUR
+Slovenia,SI,Slovenija,Sh.so.,,Europe,EUR
+Solomon Islands,SB,Solomon Islands,R,,Oceania,SBD
+Somalia,SO,Soomaaliya,₩,,Africa,SOS
+South Africa,ZA,Afrika-Borwa,£,,Africa,ZAR
+South Korea,KR,Hanguk,€,,Asia,KRW
+South Sudan,SS,South Sudan,₨,,Africa,SSP
+Spain,ES,España,ج.س.,,Europe,EUR
+Sri Lanka,LK,Sri Lankā,$,,Asia,LKR
+Sudan,SD,As-Sūdān,kr,,Africa,SDG
+Suriname,SR,Suriname,Fr,,South America,SRD
+Sweden,SE,Sverige,£,,Europe,SEK
+Switzerland,CH,Schweiz,NT$,,Europe,CHF
+Syrian Arab Republic,SY,Sūriyā,ЅМ,,Asia,SYP
+Taiwan,TW,Taiwan,Sh,,Asia,TWD
+Tajikistan,TJ,Tojikiston,฿,,Asia,TJS
+Tanzania,TZ,Tanzania,$,,Africa,TZS
+Thailand,TH,Prathet Thai,CFA,,Asia,THB
+Timor-Leste,TL,Timor-Leste,T$,,Oceania,USD
+Togo,TG,Togo,TT$,,Africa,XOF
+Tonga,TO,Tonga,د.ت,,Oceania,TOP
+Trinidad and Tobago,TT,Trinidad and Tobago,₺,,Africa,TTD
+Tunisia,TN,Tūnis,m,,Europe,TND
+Turkey,TR,Türkiye,$,,Asia,TRY
+Turkmenistan,TM,Türkmenistan,USh,,Asia,TMT
+Tuvalu,TV,Tuvalu,₴,,Europe,AUD
+Uganda,UG,Uganda,د.إ,,North America,UGX
+Ukraine,UA,Ukrayina,£,,Europe,UAH
+United Arab Emirates,AE,Al-Imārat,$,,Asia,AED
+United Kingdom,GB,United Kingdom,$,,North America,GBP
+United States,US,United States,soʻm,,South America,USD
+Uruguay,UY,Uruguay,VT,,Asia,UYU
+Uzbekistan,UZ,Oʻzbekiston,Bs.S,,Oceania,UZS
+Vanuatu,VU,Vanuatu,₫,,South America,VUV
+Venezuela,VE,Venezuela,﷼,,Asia,VES
+Vietnam,VN,Việt Nam,ZK,,Asia,VND
+Yemen,YE,Al-Yaman,$,,Africa,YER
+Zambia,ZM,Zambia,,,Africa,ZMW
+Zimbabwe,ZW,Zimbabwe,,,,ZWG

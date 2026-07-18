@@ -1,0 +1,22 @@
+﻿route_id,origin_port,destination_port,teu_capacity,base_freight_cost_usd,transit_days,customs_duty_rate,incoterm,container_type,daily_demurrage_fee
+RT-IEAU-01,Port of Dublin,Port of Melbourne,1,3500,40,0.05,FOB,FCL,150
+RT-IEAU-02,Port of Dublin,Port of Sydney,1,3650,42,0.05,CIF,FCL,150
+RT-BRLI-01,Port of Santos,Port of Dublin,1,2800,24,0.1,FOB,LCL,120
+RT-COIE-01,Port of Cartagena,Port of Dublin,1,2950,22,0.1,FOB,FCL,150
+RT-NLDL-01,Port of Rotterdam,Port of Dublin,1,650,3,0.12,CIF,LCL,100
+RT-USIE-01,Port of New York,Port of Dublin,1,1850,12,0.04,FOB,FCL,180
+RT-CNIE-01,Port of Shanghai,Port of Dublin,1,4200,35,0.06,FOB,FCL,150
+RT-SGIN-01,Port of Singapore,Port of Mumbai,1,1400,8,0.08,CIF,FCL,140
+RT-CNUS-01,Port of Shenzhen,Port of Los Angeles,1,3100,16,0.07,FOB,FCL,160
+RT-CNDE-01,Port of Ningbo,Port of Hamburg,1,3900,28,0.06,FOB,LCL,120
+RT-USUK-01,Port of Savannah,Port of Felixstowe,1,1950,14,0.04,CIF,FCL,150
+RT-ZAAU-01,Port of Durban,Port of Brisbane,1,2700,25,0.05,FOB,FCL,150
+RT-INIE-01,Port of Mundra,Port of Dublin,1,2900,21,0.1,FOB,LCL,130
+RT-JPMX-01,Port of Tokyo,Port of Manzanillo,1,2200,18,0.08,CIF,FCL,155
+RT-AEFR-01,Port of Jebel Ali,Port of Le Havre,1,2450,19,0.06,FOB,FCL,150
+RT-KRUS-01,Port of Busan,Port of Seattle,1,2850,14,0.07,FOB,FCL,170
+RT-ESMA-01,Port of Valencia,Port of Casablanca,1,800,4,0.09,CIF,LCL,110
+RT-ITEG-01,Port of Genoa,Port of Alexandria,1,1100,6,0.08,FOB,FCL,130
+RT-VNCA-01,Port of Ho Chi Minh,Port of Vancouver,1,3300,20,0.05,CIF,FCL,165
+RT-NZAU-01,Port of Auckland,Port of Adelaide,1,1200,7,0.05,FOB,LCL,95
+RT-SLAS-01,Austria,Sri Lanka,1,1200,7,0.05,FOB,LCL,95
