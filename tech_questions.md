@@ -19,3 +19,5 @@ import java.util.Optional needs to be clearly mentioned on the top
 #### **where does the literal shippingRoute java actually live?**
 #### **what is a java interface and method signature?**
 #### **what is Spring data JPA?**
+#### **what is api?**
+#### **what is interface?**
