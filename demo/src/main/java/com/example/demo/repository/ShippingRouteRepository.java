@@ -9,7 +9,7 @@ import java.util.Optional;
 @Repository
 public interface ShippingRouteRepository extends JpaRepository<ShippingRoute, String> {
 
-    // For your 4-box wireframe ranking engine
+
     List<ShippingRoute> findByDestinationPortContainingIgnoreCase(String destinationPort);
 
     // 1. Keep this for standard Optional handling

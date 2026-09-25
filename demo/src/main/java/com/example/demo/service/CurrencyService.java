@@ -51,7 +51,6 @@ public class CurrencyService {
             double cargoWeightInTonnes,
             String targetCountryName) {
 
-        // CHANGED: Using this.routeRepository (lowercase) here too!
         ShippingRoute route = this.routeRepository.findByRouteId(routeId)
                 .orElseThrow(() -> new RuntimeException("Logistics route not found: " + routeId));
 
