@@ -2,32 +2,72 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>The Clear Trade Tower</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Clear Trade Engine — Currency Prediction</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 
-<div class="app-container">
-    <div class="sidebar">
-        <h2>🔮 Clear Trade Engine</h2>
-        <hr>
-        <a href="/dashboard" class="nav-btn">🏠 Home Dashboard</a>
-        <a href="/find-deals" class="nav-btn">📦 Find Deals</a>
-        <a href="/currency-trend-prediction" class="nav-btn">💱 Currency Converter</a>
-        <a href="/green-footprint" class="nav-btn">📊 Price Comparer</a>
-        <a href="/teu-calculator" class="nav-btn">🚢 Shipping & TEU Calc</a>
-    </div>
+<div class="app-shell">
 
-    <div class="main-content">
-        <h1>📦 Find Deals Workspace</h1>
-        <p>Your database lookup mechanics will sit right here.</p>
-    </div>
-</div>
+    <aside class="sidebar">
+        <div class="brand">
+            <span class="brand-mark">&#9670;</span>
+            <span class="brand-name">Clear Trade Engine</span>
+        </div>
 
-<div class="ai-assistant-bar">
-    <div class="ai-status">🤖 Trade AI Assistant: <span style="color:#4ade80;">Online</span></div>
-    <input type="text" placeholder="Ask AI about shipping delays...">
-    <button class="ai-send-btn">Consult AI</button>
+        <nav class="nav-links">
+            <a href="/dashboard" class="nav-link">Dashboard</a>
+            <a href="/find-deals" class="nav-link">Find Deals</a>
+            <a href="/currency-trend-prediction" class="nav-link is-active">Currency Prediction</a>
+            <a href="/teu-calculator" class="nav-link">Route Calculator</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="status-dot"></div>
+            <span>System online</span>
+        </div>
+    </aside>
+
+    <main class="main">
+
+        <header class="main-header">
+            <h1>Currency Prediction</h1>
+            <p>Ten-year exchange rate projections, built from real historical data (2016&ndash;2025) with an assumed forward growth rate.</p>
+        </header>
+
+        <form class="search-form" method="get" th:action="@{/currency-trend-prediction}">
+            <div class="field">
+                <label for="currency">Currency</label>
+                <select id="currency" name="currency" onchange="this.form.submit()">
+                    <option value="">Select a currency&hellip;</option>
+                    <option value="EUR" th:selected="${selectedCurrency == 'EUR'}">EUR &mdash; Euro</option>
+                    <option value="GBP" th:selected="${selectedCurrency == 'GBP'}">GBP &mdash; British Pound</option>
+                    <option value="JPY" th:selected="${selectedCurrency == 'JPY'}">JPY &mdash; Japanese Yen</option>
+                    <option value="INR" th:selected="${selectedCurrency == 'INR'}">INR &mdash; Indian Rupee</option>
+                    <option value="BRL" th:selected="${selectedCurrency == 'BRL'}">BRL &mdash; Brazilian Real</option>
+                    <option value="ZAR" th:selected="${selectedCurrency == 'ZAR'}">ZAR &mdash; South African Rand</option>
+                </select>
+            </div>
+            <noscript><button type="submit" class="primary-btn">Show forecast</button></noscript>
+        </form>
+
+        <div class="chart-panel" th:if="${selectedCurrency}">
+            <img th:src="@{'/images/graphs/' + ${selectedCurrency} + '.png'}"
+                 th:alt="${selectedCurrency} + ' exchange rate forecast'"
+                 class="chart-image">
+            <p class="chart-note">Solid line = real historical rate (USD base). Dotted line = projected, using each currency's own average annual growth calculated from 2016&ndash;2025 data.</p>
+        </div>
+
+        <div class="empty-state" th:unless="${selectedCurrency}">
+            <p>Choose a currency above to see its 2016&ndash;2035 trend.</p>
+        </div>
+
+    </main>
+
 </div>
 
 </body>
