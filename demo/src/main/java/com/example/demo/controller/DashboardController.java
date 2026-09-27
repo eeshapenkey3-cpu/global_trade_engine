@@ -1,5 +1,5 @@
-package com.example.demo.controller; //Defines the folder path
-//pulls in external Spring Boot framework libraries, standard Java collections (List), and own project models/repositories so this file can use them.
+package com.example.demo.controller;
+//pulls in external Spring Boot framework libraries, standard Java collections (List) so file can use them
 import com.example.demo.repository.ShippingRouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -67,10 +67,14 @@ public class DashboardController {
     }
 
     @GetMapping("/currency-trend-prediction")
-    public String currencyConverterPage() { return "currency-trend-prediction";}
-
-    @GetMapping("/green-footprint")
-    public String greenFootprintPage() {return "green-footprint";}
+    public String currencyConverterPage(
+            @RequestParam(required = false) String currency, //grabs word after ?currency; not required so page works fine even w/out chosen currency
+            Model model) {//model = data passed by controller to be diplayed in html
+        if (currency != null && !currency.isBlank()) { //only bothers attribute if something is ther
+            model.addAttribute("selectedCurrency", currency); //decides to show the chart
+        }
+        return "currency-trend-prediction";
+    }
 
     @GetMapping("/teu-calculator")
     public String teuCalculatorPage() {return "teu-calculator";}
