@@ -1,3 +1,4 @@
+/* ===== Tokens ===== */
 :root {
     --bg: #0A0E17;
     --panel: #131B2E;
@@ -117,6 +118,8 @@ a {
 .main {
     padding: 48px 56px;
     max-width: 1100px;
+    overflow-x: hidden;
+    box-sizing: border-box;
 }
 
 .main-header {
@@ -296,4 +299,294 @@ input:focus-visible {
         animation: none !important;
         transition: none !important;
     }
+}
+
+/* ===== Search form (Find Deals) ===== */
+.search-form {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.field label {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.field input {
+    background: var(--bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: 11px 14px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+}
+
+.field input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.field input::placeholder {
+    color: var(--text-muted);
+}
+
+.primary-btn {
+    background: var(--accent);
+    color: #061022;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 22px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: filter 0.15s ease;
+    white-space: nowrap;
+}
+
+.primary-btn:hover {
+    filter: brightness(1.1);
+}
+
+.form-error {
+    color: #FF6B6B;
+    background: rgba(255, 107, 107, 0.1);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* ===== Results ===== */
+.results {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.result-card {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius);
+    padding: 20px;
+}
+
+.result-card--top {
+    grid-column: 1 / -1;
+    border-color: var(--accent);
+    background: linear-gradient(160deg, var(--panel) 0%, #101A30 100%);
+}
+
+.result-rank {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.result-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    margin: 8px 0 16px;
+}
+
+.result-stats {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+}
+
+.stat-label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    display: block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* ===== Bottom AI bar (sub-pages) ===== */
+.ai-bar {
+    position: fixed;
+    bottom: 0;
+    left: 260px;
+    right: 0;
+    background: var(--panel);
+    border-top: 1px solid var(--panel-border);
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.ai-bar-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.ai-bar-form {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+    max-width: 420px;
+}
+
+.ai-bar-form input {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+}
+
+.ai-bar-form input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.ai-bar-form button {
+    background: var(--accent);
+    color: #061022;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 16px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.main {
+    padding-bottom: 90px; /* clears the fixed AI bar */
+}
+
+@media (max-width: 880px) {
+    .ai-bar {
+        left: 0;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .results {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===== Select dropdowns ===== */
+.field select {
+    background: var(--bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: 11px 14px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.field select:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+/* ===== Currency chart panel ===== */
+.chart-panel {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius);
+    padding: 24px;
+    max-width: 100%;
+    overflow-x: auto;
+    box-sizing: border-box;
+}
+
+.chart-image {
+    width: 100%;
+    max-width: 900px;
+    height: auto;
+    border-radius: 8px;
+    background: #fff;
+    display: block;
+}
+
+.chart-note {
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.empty-state {
+    background: var(--panel);
+    border: 1px dashed var(--panel-border);
+    border-radius: var(--radius);
+    padding: 48px 24px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+/* ===== AI answer bubbles ===== */
+.ai-answer {
+    margin-top: 14px;
+    padding: 14px 16px;
+    background: rgba(46, 143, 255, 0.08);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+}
+
+.ai-answer-q {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    font-style: italic;
+}
+
+.ai-answer-text {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.6;
+}
+
+.ai-answer-float {
+    position: fixed;
+    bottom: 90px;
+    right: 32px;
+    max-width: 340px;
+    background: var(--panel);
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    padding: 14px 16px;
+    box-shadow: 0 8px 30px var(--accent-glow);
 }
