@@ -1,65 +1,125 @@
-<form action="/find-deals" method="POST" style="font-family: sans-serif; line-height: 2;">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Clear Trade Engine — Find Deals</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
 
-    <!-- 1. Find Product Input Field -->
-    <div>
-        <label style="font-weight: bold;">Find Product / SKU Name:</label><br>
-        <input type="text" name="product" th:value="${product ?: 'Serum Barrier Core'}" style="padding: 6px; width: 300px;">
-    </div>
+<div class="app-shell">
 
-    <!-- 2. Port Input Field -->
-    <div style="margin-top: 15px;">
-        <label style="font-weight: bold;">Port to be Imported to:</label><br>
-        <input type="text" name="destinationPort" th:value="${destinationPort ?: 'Melbourne'}" placeholder="e.g. Melbourne, Dublin" style="padding: 6px; width: 300px;">
-    </div>
+    <aside class="sidebar">
+        <div class="brand">
+            <span class="brand-mark">&#9670;</span>
+            <span class="brand-name">Clear Trade Engine</span>
+        </div>
 
-    <!-- 3. The Literal Search / Action Trigger Button -->
-    <div style="margin-top: 20px;">
-        <button type="submit" style="padding: 10px 20px; font-weight: bold; cursor: pointer; background-color: #ef4444; color: white; border: none; border-radius: 4px;">
-            Run Recommendation Engine ⚡
-        </button>
-    </div>
+        <nav class="nav-links">
+            <a href="/dashboard" class="nav-link">Dashboard</a>
+            <a href="/find-deals" class="nav-link is-active">Find Deals</a>
+            <a href="/currency-trend-prediction" class="nav-link">Currency Prediction</a>
+            <a href="/teu-calculator" class="nav-link">Route Calculator</a>
+        </nav>
 
-</form>
-<!-- Paste this simple table structure directly underneath your </form> tag -->
-<div style="margin-top: 35px; font-family: sans-serif;">
+        <div class="sidebar-footer">
+            <div class="status-dot"></div>
+            <span>System online</span>
+        </div>
+    </aside>
 
-    <h2>🏁 Ranked Port Alternatives (Cheapest is #1)</h2>
+    <main class="main">
 
-    <table style="width: 100%; border-collapse: separate; border-spacing: 20px;">
-        <!-- Row 1: 👑 Top Deal and 2nd Place -->
-        <tr>
-            <!-- Box 1 (Crown Winner) -->
-            <td style="border: 2px solid green; padding: 20px; width: 50%; vertical-align: top; background-color: #f0fdf4;">
-                <div style="font-size: 28px;">👑 Top Deal</div>
-                <h3 th:text="${topDeal != null ? topDeal.originPort + ' to ' + topDeal.destinationPort : 'Awaiting Engine Execution...'}">Country 1</h3>
-                <p th:if="${topDeal != null}"><strong>Landed Cost:</strong> $<span th:text="${#numbers.formatDecimal(topDeal.calculatedFinalCost, 1, 2)}"></span></p>
-                <small th:if="${topDeal != null}" th:text="'Incoterm: ' + ${topDeal.incoterm} + ' | Transit: ' + ${topDeal.transitDays} + ' days'"></small>
-            </td>
+        <header class="main-header">
+            <h1>Find Deals</h1>
+            <p>Pick a product category and destination port to see the lowest landed cost, ranked automatically.</p>
+        </header>
 
-            <!-- Box 2 (2nd Place) -->
-            <td style="border: 1px solid #cbd5e1; padding: 20px; width: 50%; vertical-align: top;">
-                <div>🥈 2nd Place</div>
-                <h3 th:text="${secondDeal != null ? secondDeal.originPort + ' to ' + secondDeal.destinationPort : 'No Data Available'}">Country 2</h3>
-                <p th:if="${secondDeal != null}"><strong>Landed Cost:</strong> $<span th:text="${#numbers.formatDecimal(secondDeal.calculatedFinalCost, 1, 2)}"></span></p>
-            </td>
-        </tr>
+        <form class="search-form" th:action="@{/find-deals}" method="post">
+            <div class="field">
+                <label for="destinationPort">Destination port</label>
+                <input type="text" id="destinationPort" name="destinationPort" placeholder="e.g. Melbourne" required>
+            </div>
 
-        <!-- Row 2: 3rd and 4th Place -->
-        <tr>
-            <!-- Box 3 (3rd Place) -->
-            <td style="border: 1px solid #cbd5e1; padding: 20px; vertical-align: top;">
-                <div>🥉 3rd Place</div>
-                <h3 th:text="${thirdDeal != null ? thirdDeal.originPort + ' to ' + thirdDeal.destinationPort : 'No Data Available'}">Country 3</h3>
-                <p th:if="${thirdDeal != null}"><strong>Landed Cost:</strong> $<span th:text="${#numbers.formatDecimal(thirdDeal.calculatedFinalCost, 1, 2)}"></span></p>
-            </td>
+            <div class="field">
+                <label for="category">Product category</label>
+                <select id="category" name="category" required>
+                    <option value="">Select a category&hellip;</option>
+                    <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>
+                </select>
+            </div>
 
-            <!-- Box 4 (4th Place) -->
-            <td style="border: 1px solid #cbd5e1; padding: 20px; vertical-align: top;">
-                <div>4th Place</div>
-                <h3 th:text="${fourthDeal != null ? fourthDeal.originPort + ' to ' + fourthDeal.destinationPort : 'No Data Available'}">Country 4</h3>
-                <p th:if="${fourthDeal != null}"><strong>Landed Cost:</strong> $<span th:text="${#numbers.formatDecimal(fourthDeal.calculatedFinalCost, 1, 2)}"></span></p>
-            </td>
-        </tr>
-    </table>
+            <button type="submit" class="primary-btn">Search routes</button>
+        </form>
+
+        <p class="form-error" th:if="${errorMessage}" th:text="${errorMessage}"></p>
+
+        <div class="results" th:if="${calculationSuccess}">
+
+            <div class="result-card result-card--top" th:if="${topDeal}">
+                <span class="result-rank">Best deal</span>
+                <h3 th:text="${topDeal.originPort} + ' &rarr; ' + ${topDeal.destinationPort}"></h3>
+                <div class="result-stats">
+                    <div><span class="stat-label">Category</span><span class="stat-value" th:text="${product}"></span></div>
+                    <div><span class="stat-label">Total cost</span><span class="stat-value" th:text="'$' + ${#numbers.formatDecimal(topDeal.calculatedFinalCost, 1, 2)}"></span></div>
+                    <div><span class="stat-label">Transit days</span><span class="stat-value" th:text="${topDeal.transitDays}"></span></div>
+                    <div><span class="stat-label">Incoterm</span><span class="stat-value" th:text="${topDeal.incoterm}"></span></div>
+                </div>
+            </div>
+
+            <div class="result-card" th:if="${secondDeal}">
+                <span class="result-rank">2nd</span>
+                <h3 th:text="${secondDeal.originPort} + ' &rarr; ' + ${secondDeal.destinationPort}"></h3>
+                <div class="result-stats">
+                    <div><span class="stat-label">Total cost</span><span class="stat-value" th:text="'$' + ${#numbers.formatDecimal(secondDeal.calculatedFinalCost, 1, 2)}"></span></div>
+                    <div><span class="stat-label">Transit days</span><span class="stat-value" th:text="${secondDeal.transitDays}"></span></div>
+                </div>
+            </div>
+
+            <div class="result-card" th:if="${thirdDeal}">
+                <span class="result-rank">3rd</span>
+                <h3 th:text="${thirdDeal.originPort} + ' &rarr; ' + ${thirdDeal.destinationPort}"></h3>
+                <div class="result-stats">
+                    <div><span class="stat-label">Total cost</span><span class="stat-value" th:text="'$' + ${#numbers.formatDecimal(thirdDeal.calculatedFinalCost, 1, 2)}"></span></div>
+                    <div><span class="stat-label">Transit days</span><span class="stat-value" th:text="${thirdDeal.transitDays}"></span></div>
+                </div>
+            </div>
+
+            <div class="result-card" th:if="${fourthDeal}">
+                <span class="result-rank">4th</span>
+                <h3 th:text="${fourthDeal.originPort} + ' &rarr; ' + ${fourthDeal.destinationPort}"></h3>
+                <div class="result-stats">
+                    <div><span class="stat-label">Total cost</span><span class="stat-value" th:text="'$' + ${#numbers.formatDecimal(fourthDeal.calculatedFinalCost, 1, 2)}"></span></div>
+                    <div><span class="stat-label">Transit days</span><span class="stat-value" th:text="${fourthDeal.transitDays}"></span></div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
 
 </div>
+
+<div class="ai-bar">
+    <div class="ai-bar-status">
+        <span class="status-dot"></span>
+        Trade AI Assistant — Online
+    </div>
+    <form class="ai-bar-form" th:action="@{/ai-assistant}" method="post">
+        <input type="hidden" name="returnPage" value="find-deals">
+        <input type="text" name="query" placeholder="Ask AI about shipping delays..." required>
+        <button type="submit">Consult AI</button>
+    </form>
+</div>
+
+<div class="ai-answer-float" th:if="${aiAnswer}">
+    <p class="ai-answer-q" th:text="'&quot;' + ${aiQuestion} + '&quot;'"></p>
+    <p class="ai-answer-text" th:text="${aiAnswer}"></p>
+</div>
+
+</body>
+</html>

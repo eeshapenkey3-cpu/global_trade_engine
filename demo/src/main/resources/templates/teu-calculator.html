@@ -2,32 +2,96 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>The Clear Trade Tower</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Clear Trade Engine — Route Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 
-<div class="app-container">
-    <div class="sidebar">
-        <h2>🔮 Clear Trade Engine</h2>
-        <hr>
-        <a href="/dashboard" class="nav-btn">🏠 Home Dashboard</a>
-        <a href="/find-deals" class="nav-btn">📦 Find Deals</a>
-        <a href="/currency-trend-prediction" class="nav-btn">💱 Currency Converter</a>
-        <a href="/green-footprint" class="nav-btn">📊 Price Comparer</a>
-        <a href="/teu-calculator" class="nav-btn">🚢 Shipping & TEU Calc</a>
-    </div>
+<div class="app-shell">
 
-    <div class="main-content">
-        <h1>📦 Find Deals Workspace</h1>
-        <p>Your database lookup mechanics will sit right here.</p>
-    </div>
-</div>
+    <aside class="sidebar">
+        <div class="brand">
+            <span class="brand-mark">&#9670;</span>
+            <span class="brand-name">Clear Trade Engine</span>
+        </div>
 
-<div class="ai-assistant-bar">
-    <div class="ai-status">🤖 Trade AI Assistant: <span style="color:#4ade80;">Online</span></div>
-    <input type="text" placeholder="Ask AI about shipping delays...">
-    <button class="ai-send-btn">Consult AI</button>
+        <nav class="nav-links">
+            <a href="/dashboard" class="nav-link">Dashboard</a>
+            <a href="/find-deals" class="nav-link">Find Deals</a>
+            <a href="/currency-trend-prediction" class="nav-link">Currency Prediction</a>
+            <a href="/teu-calculator" class="nav-link is-active">Route Calculator</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="status-dot"></div>
+            <span>System online</span>
+        </div>
+    </aside>
+
+    <main class="main">
+
+        <header class="main-header">
+            <h1>Route Calculator</h1>
+            <p>Pick a route, product category, and cargo weight to see the full landed cost, converted into your customer's local currency.</p>
+        </header>
+
+        <form class="search-form" th:action="@{/teu-calculator}" method="post">
+            <div class="field">
+                <label for="routeId">Shipping route</label>
+                <select id="routeId" name="routeId" required>
+                    <option value="">Select a route&hellip;</option>
+                    <option th:each="route : ${allRoutes}"
+                            th:value="${route.routeId}"
+                            th:text="${route.originPort} + ' &rarr; ' + ${route.destinationPort}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="category">Product category</label>
+                <select id="category" name="category" required>
+                    <option value="">Select a category&hellip;</option>
+                    <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="cargoWeight">Cargo weight (tonnes)</label>
+                <input type="number" id="cargoWeight" name="cargoWeight" step="0.01" min="0" placeholder="18.5" required>
+            </div>
+
+            <div class="field">
+                <label for="targetCountry">Convert total to</label>
+                <select id="targetCountry" name="targetCountry" required>
+                    <option value="">Select a country&hellip;</option>
+                    <option th:each="country : ${allCountries}"
+                            th:value="${country.countryName}"
+                            th:text="${country.countryName} + ' (' + ${country.currencySymbol} + ')'">
+                    </option>
+                </select>
+            </div>
+
+            <button type="submit" class="primary-btn">Calculate</button>
+        </form>
+
+        <p class="form-error" th:if="${errorMessage}" th:text="${errorMessage}"></p>
+
+        <div class="result-card result-card--top" th:if="${totalLandedCost}">
+            <span class="result-rank">Total landed cost</span>
+            <h3 th:text="${targetCountryName} + ' &mdash; ' + ${routeLabel}"></h3>
+            <div class="result-stats">
+                <div><span class="stat-label">Total cost (local currency)</span><span class="stat-value" th:text="${totalLandedCost}"></span></div>
+                <div><span class="stat-label">Freight fee (USD)</span><span class="stat-value" th:text="'$' + ${#numbers.formatDecimal(freightFeeUsd, 1, 2)}"></span></div>
+                <div><span class="stat-label">Transit days</span><span class="stat-value" th:text="${transitDays}"></span></div>
+            </div>
+        </div>
+
+    </main>
+
 </div>
 
 </body>

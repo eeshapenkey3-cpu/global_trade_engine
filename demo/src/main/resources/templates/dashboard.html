@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>the clear trade</title>
+    <title>Clear Trade Engine — Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -20,8 +20,8 @@
         </div>
 
         <nav class="nav-links">
-            <a href="/dashboard" class="nav-link">Dashboard</a>
-            <a href="/find-deals" class="nav-link is-active">Find Deals</a>
+            <a href="/dashboard" class="nav-link is-active">Dashboard</a>
+            <a href="/find-deals" class="nav-link">Find Deals</a>
             <a href="/currency-trend-prediction" class="nav-link">Currency Prediction</a>
             <a href="/teu-calculator" class="nav-link">Route Calculator</a>
         </nav>
@@ -33,80 +33,16 @@
     </aside>
 
     <main class="main">
-
         <header class="main-header">
-            <h1>Find Deals</h1>
-            <p>Enter a destination port and product to see the lowest landed cost, ranked automatically.</p>
+            <h1>Clear Trade Engine</h1>
+            <p>A global trade toolkit for finding shipping deals, predicting currency trends, and calculating landed costs.</p>
         </header>
 
-        <form class="search-form" th:action="@{/find-deals}" method="post">
-            <div class="field">
-                <label for="destinationPort">Destination port</label>
-                <input type="text" id="destinationPort" name="destinationPort" placeholder="e.g. Melbourne" required>
-            </div>
-            <div class="field">
-                <label for="product">Product</label>
-                <input type="text" id="product" name="product" placeholder="e.g. Electronics" required>
-            </div>
-            <button type="submit" class="primary-btn">Search routes</button>
-        </form>
-
-        <p class="form-error" th:if="${errorMessage}" th:text="${errorMessage}"></p>
-
-        <div class="results" th:if="${calculationSuccess}">
-
-            <div class="result-card result-card--top" th:if="${topDeal}">
-                <span class="result-rank">Best deal</span>
-                <h3 th:text="${topDeal.originPort} + ' &rarr; ' + ${topDeal.destinationPort}"></h3>
-                <div class="result-stats">
-                    <div><span class="stat-label">Total cost</span><span class="stat-value" th:text="'$' + ${#numbers.formatDecimal(topDeal.calculatedFinalCost, 1, 2)}"></span></div>
-                    <div><span class="stat-label">Transit days</span><span class="stat-value" th:text="${topDeal.transitDays}"></span></div>
-                    <div><span class="stat-label">Incoterm</span><span class="stat-value" th:text="${topDeal.incoterm}"></span></div>
-                </div>
-            </div>
-
-            <div class="result-card" th:if="${secondDeal}">
-                <span class="result-rank">2nd</span>
-                <h3 th:text="${secondDeal.originPort} + ' &rarr; ' + ${secondDeal.destinationPort}"></h3>
-                <div class="result-stats">
-                    <div><span class="stat-label">Total cost</span><span class="stat-value" th:text="'$' + ${#numbers.formatDecimal(secondDeal.calculatedFinalCost, 1, 2)}"></span></div>
-                    <div><span class="stat-label">Transit days</span><span class="stat-value" th:text="${secondDeal.transitDays}"></span></div>
-                </div>
-            </div>
-
-            <div class="result-card" th:if="${thirdDeal}">
-                <span class="result-rank">3rd</span>
-                <h3 th:text="${thirdDeal.originPort} + ' &rarr; ' + ${thirdDeal.destinationPort}"></h3>
-                <div class="result-stats">
-                    <div><span class="stat-label">Total cost</span><span class="stat-value" th:text="'$' + ${#numbers.formatDecimal(thirdDeal.calculatedFinalCost, 1, 2)}"></span></div>
-                    <div><span class="stat-label">Transit days</span><span class="stat-value" th:text="${thirdDeal.transitDays}"></span></div>
-                </div>
-            </div>
-
-            <div class="result-card" th:if="${fourthDeal}">
-                <span class="result-rank">4th</span>
-                <h3 th:text="${fourthDeal.originPort} + ' &rarr; ' + ${fourthDeal.destinationPort}"></h3>
-                <div class="result-stats">
-                    <div><span class="stat-label">Total cost</span><span class="stat-value" th:text="'$' + ${#numbers.formatDecimal(fourthDeal.calculatedFinalCost, 1, 2)}"></span></div>
-                    <div><span class="stat-label">Transit days</span><span class="stat-value" th:text="${fourthDeal.transitDays}"></span></div>
-                </div>
-            </div>
-
+        <div class="empty-state">
+            <p>Use the sidebar to get started &mdash; Find Deals, Currency Prediction, or the Route Calculator.</p>
         </div>
-
     </main>
 
-</div>
-
-<div class="ai-bar">
-    <div class="ai-bar-status">
-        <span class="status-dot"></span>
-        Trade AI Assistant — Online
-    </div>
-    <form class="ai-bar-form" th:action="@{/ai-assistant}" method="post">
-        <input type="text" name="query" placeholder="Ask AI about shipping delays...">
-        <button type="submit">Consult AI</button>
-    </form>
 </div>
 
 </body>

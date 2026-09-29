@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 //pulls in external Spring Boot framework libraries, standard Java collections (List) so file can use them
 import com.example.demo.repository.ShippingRouteRepository;
+import com.example.demo.service.ProductCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import com.example.demo.model.ShippingRoute;
@@ -17,13 +18,13 @@ public class DashboardController {
     @Autowired
     private ShippingRouteRepository shippingRouteRepository; //opens db repo connection automatically and links it here (injection)
 
+    @Autowired
+    private ProductCategoryService productCategoryService;
+
     @GetMapping("/dashboard")
     public String homeDashboard() {
         return "dashboard"; // Loads dashboard.html when link is opened
     }
-
-    @GetMapping("/find-deals")
-    public String findDealsPage() {return "find-deals";}
 
     @PostMapping("/find-deals")
     public String runLogisticsEngine(
@@ -77,5 +78,8 @@ public class DashboardController {
     }
 
     @GetMapping("/teu-calculator")
-    public String teuCalculatorPage() {return "teu-calculator";}
+    public String teuCalculatorPage() {
+
+        return "teu-calculator";
+    }
 }
