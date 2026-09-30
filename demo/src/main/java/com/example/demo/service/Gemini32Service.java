@@ -1,39 +1,67 @@
-//package com.example.demo.service;
-//
-//import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.stereotype.Service;
-//import org.springframework.web.client.RestClient;
-//import org.springframework.http.MediaType;
-//
-//import java.util.List;
-//import java.util.Map;
-//
-//@Service //what does this annotation do
-//public class Gemini32Service {
-//    @Value("${gemini.api.key}")
-//    private String apiKey;
-//
-//    @Value("${gemini.api.url}")
-//    private String apiUrl;
-//
-//    private final RestClient restClient;
-//
-//    public Gemini32Service() {
-//        this.restClient = RestClient.create();
-//    }
-//
-//    public String askGemini32(String prompt){
-//        //json body gemini expects
-//        Map<String, Object> requestBody = Map.of(
-//                "contents", List.of(
-//                        Map.of("parts",List.of(
-//                                Map.of("text",prompt)
-//                        ))
-//                )
-//        );
-//        Map response = restClient.post()
-//                .uri(apiUrl + "?key="+apiKey)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .body
-//    }
-//}
+package com.example.demo.service;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
+
+import static org.unbescape.json.JsonEscape.escapeJson;
+
+@Service
+public class Gemini32Service{
+    @Value("${gemini.api.key}")
+    private String apiKey;
+
+    private final String apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
+
+    private final RestClient restClient;
+    private final ObjectMapper objectMapper;
+
+    //constructor
+
+    public Gemini32Service(RestClient.Builder restClientBuilder, ObjectMapper objectMapper) {
+        this.restClient = RestClientBuilder.build();
+        this.objectMapper = objectMapper;
+    }
+
+    public String getAiResponse(String userMessage){
+        try{
+            String jsonPayLoad = """
+                    {
+                        "contents": [{
+                            "parts": [{"text": "%s"}]
+                        }]
+                    }
+                    """.formatted(escapeJson(userMessage));
+
+        String rawJsonResponse = restClient.post()
+                .uri(apiUrl + "?key=" + apiKey)
+                .header("content-type","application/json")
+                .body(jsonPayLoad)
+                .retrieve()
+                .body(String.class);
+
+                JsonNode rootNode = objectMapper.readTree(rawJsonResponse);
+
+                String aiText = rootNode.path("candidates")
+                        .get(0)
+                        .path("content")
+                        .path("parts")
+                        .get(0)
+                        .path("text")
+                        .asText();
+                return aiText;
+        }catch(Exception e){
+            return "error calling gemini api: "+e.getMessage();
+        }
+    }
+
+    private String escapeJson(String input){
+        if(input == null)return "";
+        return input.replace("\\","\\\\")
+                .replace("\"","\\\"")
+                .replace("\n","\\n")
+                .replace("\r","\\r");
+    }
+}

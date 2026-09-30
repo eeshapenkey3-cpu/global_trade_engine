@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 //pulls in external Spring Boot framework libraries, standard Java collections (List) so file can use them
 import com.example.demo.repository.ShippingRouteRepository;
+//import com.example.demo.service.Gemini32Service;
 import com.example.demo.service.ProductCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -20,6 +21,9 @@ public class DashboardController {
 
     @Autowired
     private ProductCategoryService productCategoryService;
+
+//    @Autowired
+//    private Gemini32Service gemini32Service;
 
     @GetMapping("/dashboard")
     public String homeDashboard() {
