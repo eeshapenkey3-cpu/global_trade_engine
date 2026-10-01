@@ -65,7 +65,10 @@
         <div class="empty-state" th:unless="${selectedCurrency}">
             <p>Choose a currency above to see its 2016&ndash;2035 trend.</p>
         </div>
-
+        <form th:action="@{/ai-assistant}" method="post">
+            <input type="text" name="query" placeholder="Ask AI about shipping delays...">
+            <button type="submit">Ask</button>
+        </form>
     </main>
 
 </div>

@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import org.springframework.http.MediaType;
 
-import static org.unbescape.json.JsonEscape.escapeJson;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class Gemini32Service{
@@ -15,53 +17,37 @@ public class Gemini32Service{
 
     private final String apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
-    private final RestClient restClient;
-    private final ObjectMapper objectMapper;
+    private final RestClient restClient = RestClient.create();
+    private final ObjectMapper jsonMapper = new ObjectMapper();
 
-    //constructor
+    public String askGemini32(String prompt){
+        Map<String, Object> requestBody = Map.of(
+                "contents",List.of(
+                        Map.of("parts",List.of(
+                                Map.of("text",prompt)
+                        ))
+                )
+        );
 
-    public Gemini32Service(RestClient.Builder restClientBuilder, ObjectMapper objectMapper) {
-        this.restClient = RestClientBuilder.build();
-        this.objectMapper = objectMapper;
-    }
-
-    public String getAiResponse(String userMessage){
         try{
-            String jsonPayLoad = """
-                    {
-                        "contents": [{
-                            "parts": [{"text": "%s"}]
-                        }]
-                    }
-                    """.formatted(escapeJson(userMessage));
+            String rawJson = restClient.post()
+                    .uri(apiUrl + "?key="+apiKey)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(requestBody)
+                    .retrieve()
+                    .body(String.class);
 
-        String rawJsonResponse = restClient.post()
-                .uri(apiUrl + "?key=" + apiKey)
-                .header("content-type","application/json")
-                .body(jsonPayLoad)
-                .retrieve()
-                .body(String.class);
+            JsonNode root = jsonMapper.readTree(rawJson);
 
-                JsonNode rootNode = objectMapper.readTree(rawJsonResponse);
-
-                String aiText = rootNode.path("candidates")
-                        .get(0)
-                        .path("content")
-                        .path("parts")
-                        .get(0)
-                        .path("text")
-                        .asText();
-                return aiText;
+            String answer = root
+                    .path("candidates").get(0)
+                    .path("content")
+                    .path("parts").get(0)
+                    .path("text")
+                    .asText();
+            return answer.isEmpty() ? "No response from AI." : answer;
         }catch(Exception e){
-            return "error calling gemini api: "+e.getMessage();
+            return "AI assistant is temporarily unavailable: "+ e.getMessage();
         }
-    }
-
-    private String escapeJson(String input){
-        if(input == null)return "";
-        return input.replace("\\","\\\\")
-                .replace("\"","\\\"")
-                .replace("\n","\\n")
-                .replace("\r","\\r");
     }
 }

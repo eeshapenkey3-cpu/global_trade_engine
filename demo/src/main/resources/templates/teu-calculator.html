@@ -89,7 +89,10 @@
                 <div><span class="stat-label">Transit days</span><span class="stat-value" th:text="${transitDays}"></span></div>
             </div>
         </div>
-
+        <form th:action="@{/ai-assistant}" method="post">
+            <input type="text" name="query" placeholder="Ask AI about shipping delays...">
+            <button type="submit">Ask</button>
+        </form>
     </main>
 
 </div>

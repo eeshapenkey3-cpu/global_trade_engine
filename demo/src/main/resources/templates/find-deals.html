@@ -120,6 +120,9 @@
     <p class="ai-answer-q" th:text="'&quot;' + ${aiQuestion} + '&quot;'"></p>
     <p class="ai-answer-text" th:text="${aiAnswer}"></p>
 </div>
-
+<form th:action="@{/ai-assistant}" method="post">
+    <input type="text" name="query" placeholder="Ask AI about shipping delays...">
+    <button type="submit">Ask</button>
+</form>
 </body>
 </html>

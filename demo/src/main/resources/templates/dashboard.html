@@ -42,7 +42,10 @@
             <p>Use the sidebar to get started &mdash; Find Deals, Currency Prediction, or the Route Calculator.</p>
         </div>
     </main>
-
+    <form th:action="@{/ai-assistant}" method="post">
+        <input type="text" name="query" placeholder="Ask AI about shipping delays...">
+        <button type="submit">Ask</button>
+    </form>
 </div>
 
 </body>
