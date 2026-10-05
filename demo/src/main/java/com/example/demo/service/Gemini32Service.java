@@ -22,16 +22,14 @@ public class Gemini32Service{
 
     public String askGemini32(String prompt){
         Map<String, Object> requestBody = Map.of(
-                "contents",List.of(
-                        Map.of("parts",List.of(
-                                Map.of("text",prompt)
-                        ))
-                )
+                "model","gemini-3.8-flash",
+                "input", prompt
         );
 
         try{
             String rawJson = restClient.post()
-                    .uri(apiUrl + "?key="+apiKey)
+                    .uri(apiUrl)
+                    .header("x-goog-api-key",apiKey)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(requestBody)
                     .retrieve()
@@ -39,15 +37,12 @@ public class Gemini32Service{
 
             JsonNode root = jsonMapper.readTree(rawJson);
 
-            String answer = root
-                    .path("candidates").get(0)
-                    .path("content")
-                    .path("parts").get(0)
-                    .path("text")
-                    .asText();
-            return answer.isEmpty() ? "No response from AI." : answer;
-        }catch(Exception e){
-            return "AI assistant is temporarily unavailable: "+ e.getMessage();
+            JsonNode textNode = root.path("interaction").path("output_text");
+            if(!textNode.isMissingNode() && !textNode.asText().isEmpty()){
+                return textNode.asText();
+            }
+
+            JsonNode altNode = root.path("output_text");
         }
     }
 }
