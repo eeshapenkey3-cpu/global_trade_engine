@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -26,7 +27,8 @@ public class DashboardController {
     private Gemini32Service gemini32Service;
 
     @GetMapping("/dashboard")
-    public String homeDashboard() {
+    public String homeDashboard(Model model) {
+        model.addAttribute("currentPage", "dashboard");
         return "dashboard"; // Loads dashboard.html when link is opened
     }
 
@@ -75,6 +77,7 @@ public class DashboardController {
     public String currencyConverterPage(
             @RequestParam(required = false) String currency, //grabs word after ?currency; not required so page works fine even w/out chosen currency
             Model model) {//model = data passed by controller to be diplayed in html
+        model.addAttribute("currentPage","currency-trend-prediction");
         if (currency != null && !currency.isBlank()) { //only bothers attribute if something is ther
             model.addAttribute("selectedCurrency", currency); //decides to show the chart
         }
@@ -82,8 +85,21 @@ public class DashboardController {
     }
 
     @GetMapping("/teu-calculator")
-    public String teuCalculatorPage() {
-
+    public String teuCalculatorPage(Model model) {
+        model.addAttribute("currentPage","teu-calculator");
         return "teu-calculator";
     }
-}
+
+    @PostMapping("/ai-assistant")
+    public String askAi(
+            @RequestParam String query,
+            @RequestParam(required = false) String returnPage,
+            RedirectAttributes redirectAttributes){
+        String answer = gemini32Service.askGemini32(query);
+
+        redirectAttributes.addFlashAttribute("aiAnswer",answer);
+        redirectAttributes.addFlashAttribute("aiQuestion",query);
+        String target = (returnPage != null && !returnPage.isBlank()) ? returnPage : "dashboard";
+        return "redirect:/" + target;
+        }
+    }

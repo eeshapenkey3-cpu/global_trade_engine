@@ -104,25 +104,25 @@
 
 </div>
 
-<div class="ai-bar">
-    <div class="ai-bar-status">
+<div class="sidebar-ai">
+    <div class="sidebar-ai-label">
         <span class="status-dot"></span>
-        Trade AI Assistant — Online
+        Trade AI Assistant
     </div>
-    <form class="ai-bar-form" th:action="@{/ai-assistant}" method="post">
-        <input type="hidden" name="returnPage" value="find-deals">
-        <input type="text" name="query" placeholder="Ask AI about shipping delays..." required>
-        <button type="submit">Consult AI</button>
+    <form class="sidebar-ai-form" th:action="@{/ai-assistant}" method="post">
+        <input type="hidden" name="returnPage" th:value="${currentPage}">
+        <input type="text" name="query" placeholder="Ask about shipping delays..." required>
+        <button type="submit">Ask</button>
     </form>
+    <div class="sidebar-ai-answer" th:if="${aiAnswer}">
+        <p class="sidebar-ai-answer-q" th:text="'&quot;' + ${aiQuestion} + '&quot;'"></p>
+        <p th:text="${aiAnswer}"></p>
+    </div>
 </div>
 
-<div class="ai-answer-float" th:if="${aiAnswer}">
-    <p class="ai-answer-q" th:text="'&quot;' + ${aiQuestion} + '&quot;'"></p>
-    <p class="ai-answer-text" th:text="${aiAnswer}"></p>
+<div class="sidebar-footer">
+    <div class="status-dot"></div>
+    <span>System online</span>
 </div>
-<form th:action="@{/ai-assistant}" method="post">
-    <input type="text" name="query" placeholder="Ask AI about shipping delays...">
-    <button type="submit">Ask</button>
-</form>
 </body>
 </html>
