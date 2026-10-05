@@ -43,6 +43,12 @@ public class Gemini32Service{
             }
 
             JsonNode altNode = root.path("output_text");
+            if(!altNode.isMissingNode()&& !altNode.asText().isEmpty()){
+                return altNode.asText();
+            }
+            return "AI responded, but in unexpected format: " + rawJson;
+        }catch(Exception e){
+            return "AI assistant is temporarily unavailable: "+e.getMessage();
         }
     }
 }
