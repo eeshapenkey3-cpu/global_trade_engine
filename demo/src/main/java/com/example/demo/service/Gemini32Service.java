@@ -12,15 +12,17 @@ import java.util.Map;
 
 @Service
 public class Gemini32Service{
+
     @Value("${gemini.api.key}")
     private String apiKey;
 
-    private final String apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
+    private final String apiUrl = "https://generativelanguage.googleapis.com/v1beta/interactions";
 
     private final RestClient restClient = RestClient.create();
     private final ObjectMapper jsonMapper = new ObjectMapper();
 
     public String askGemini32(String prompt){
+        System.out.println("KEY LENGTH: " + apiKey.length() + " | KEY: [" + apiKey + "]");
         Map<String, Object> requestBody = Map.of(
                 "model","gemini-3.8-flash",
                 "input", prompt
@@ -37,14 +39,14 @@ public class Gemini32Service{
 
             JsonNode root = jsonMapper.readTree(rawJson);
 
-            JsonNode textNode = root.path("interaction").path("output_text");
-            if(!textNode.isMissingNode() && !textNode.asText().isEmpty()){
-                return textNode.asText();
-            }
-
-            JsonNode altNode = root.path("output_text");
-            if(!altNode.isMissingNode()&& !altNode.asText().isEmpty()){
-                return altNode.asText();
+            JsonNode steps = root.path("steps");
+            for(JsonNode step : steps){
+                if("model_output".equals(step.path("type").asText())){
+                    JsonNode content = step.path("content");
+                    if(content.isArray() && content.size() > 0){
+                        return content.get(0).path("text").asText();
+                    }
+                }
             }
             return "AI responded, but in unexpected format: " + rawJson;
         }catch(Exception e){
