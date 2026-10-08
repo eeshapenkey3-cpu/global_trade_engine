@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 //pulls in external Spring Boot framework libraries, standard Java collections (List) so file can use them
 import com.example.demo.repository.ShippingRouteRepository;
+import com.example.demo.repository.CountryCodesRepository;
+import com.example.demo.service.CurrencyService;
 import com.example.demo.service.FindDealService;
 import com.example.demo.service.Gemini32Service;
 import com.example.demo.service.ProductCategoryService;
@@ -13,13 +15,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.stream.Collectors;
 import java.util.List;
+import java.math.BigDecimal;
 
 @Controller //web controller responsible for handling incoming HTTP requests
 public class DashboardController {
 
     @Autowired
     private ShippingRouteRepository shippingRouteRepository; //opens db repo connection automatically and links it here (injection)
+
+    @Autowired
+    private CountryCodesRepository countryCodesRepository;
 
     @Autowired
     private ProductCategoryService productCategoryService;
@@ -29,6 +36,9 @@ public class DashboardController {
 
     @Autowired
     private FindDealService findDealService;
+
+    @Autowired
+    private CurrencyService currencyService;
 
     @GetMapping("/dashboard")
     public String homeDashboard(Model model) {
@@ -44,9 +54,16 @@ public class DashboardController {
         model.addAttribute("categories",productCategoryService.getAllCategoryNames());
         double productPrice = productCategoryService.getCategoryValue(category);
 
+        List<String> destinationPorts = shippingRouteRepository.findAll().stream()
+                        .map(ShippingRoute::getDestinationPort)
+                        .distinct()
+                        .sorted()
+                        .collect(Collectors.toList());
+
         model.addAttribute("product", category); //UI mirrors the input so it doesnt forget
         model.addAttribute("productPrice", productPrice);
         model.addAttribute("destinationPort", destinationPort);
+        model.addAttribute("destinationPorts",destinationPorts);
 
         List<ShippingRoute> possibleRoutes = findDealService.findAndRankDeals(destinationPort, productPrice);
 
@@ -67,6 +84,13 @@ public class DashboardController {
     @GetMapping("/find-deals")
     public String findDealsPage(Model model) {
         model.addAttribute("categories", productCategoryService.getAllCategoryNames());
+        List<String> destinationPorts = shippingRouteRepository.findAll().stream()
+                .map(ShippingRoute::getDestinationPort)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+
+        model.addAttribute("destinationPorts", destinationPorts);
         return "find-deals";
     }
 
@@ -81,11 +105,48 @@ public class DashboardController {
         return "currency-trend-prediction";
     }
 
-    @GetMapping("/teu-calculator")
-    public String teuCalculatorPage(Model model) {
-        model.addAttribute("currentPage","teu-calculator");
-        return "teu-calculator";
-    }
+        @GetMapping("/teu-calculator")
+        public String teuCalculatorPage(Model model) {
+
+            model.addAttribute("allRoutes",shippingRouteRepository.findAll());
+            model.addAttribute("allCountries",countryCodesRepository.findAll());
+            model.addAttribute("categories",productCategoryService.getAllCategoryNames());
+            model.addAttribute("currentPage","teu-calculator");
+            return "teu-calculator";
+        }
+
+        @PostMapping("/teu-calculator")
+        public String calculateTeu(
+                @RequestParam String routeId,
+                @RequestParam String category,
+                @RequestParam double cargoWeight,
+                @RequestParam String targetCountry,
+                Model model){
+            model.addAttribute("allRoutes",shippingRouteRepository.findAll());
+            model.addAttribute("allCountries",countryCodesRepository.findAll());
+            model.addAttribute("categories",productCategoryService.getAllCategoryNames());
+            model.addAttribute("currentPage","teu-calculator");
+
+            try{
+                double productPrice = productCategoryService.getCategoryValue(category);
+                ShippingRoute route = shippingRouteRepository.findByRouteId(routeId)
+                        .orElseThrow(() -> new RuntimeException("route not found: "+routeId));
+
+                double freightFeeUsd = currencyService.calculateAllocatedFreightFee(routeId, cargoWeight);
+
+                BigDecimal totalLandedCost = currencyService.calculateTotalLandedCostInLocalCurrency(
+                        routeId, productPrice, cargoWeight, targetCountry);
+
+                model.addAttribute("totalLandedCost", totalLandedCost);
+                model.addAttribute("freightFeeUsd",freightFeeUsd);
+                model.addAttribute("transitDays", route.getTransitDays());
+                model.addAttribute("targetCountryName",targetCountry);
+                model.addAttribute("routeLabel",route.getOriginPort() + " to "+route.getDestinationPort());
+            }catch(Exception e){
+                model.addAttribute("errorMessage",e.getMessage());
+            }
+            return "teu-calculator";
+        }
 
     @PostMapping("/ai-assistant")
     public String askAi(

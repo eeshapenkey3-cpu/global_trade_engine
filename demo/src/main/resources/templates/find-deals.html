@@ -42,7 +42,10 @@
         <form class="search-form" th:action="@{/find-deals}" method="post">
             <div class="field">
                 <label for="destinationPort">Destination port</label>
-                <input type="text" id="destinationPort" name="destinationPort" placeholder="e.g. Melbourne" required>
+                <select id = "destinationPort" name = "destinationPort"required>
+                    <option value="">Select a destination port&hellip;</option>
+                    <option th:each = "port : ${destinationPorts}"th:value = "${port}" th:text ="${port}"></option>
+                </select>
             </div>
 
             <div class="field">
