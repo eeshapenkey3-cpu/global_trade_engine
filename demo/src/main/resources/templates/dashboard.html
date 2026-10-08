@@ -25,26 +25,6 @@
             <p>Use the sidebar to get started &mdash; Find Deals, Currency Prediction, or the Route Calculator.</p>
         </div>
     </main>
-    <div class="sidebar-ai">
-        <div class="sidebar-ai-label">
-            <span class="status-dot"></span>
-            Trade AI Assistant
-        </div>
-        <form class="sidebar-ai-form" th:action="@{/ai-assistant}" method="post">
-            <input type="hidden" name="returnPage" th:value="${currentPage}">
-            <input type="text" name="query" placeholder="Ask about shipping delays..." required>
-            <button type="submit">Ask</button>
-        </form>
-        <div class="sidebar-ai-answer" th:if="${aiAnswer}">
-            <p class="sidebar-ai-answer-q" th:text="'&quot;' + ${aiQuestion} + '&quot;'"></p>
-            <p th:text="${aiAnswer}"></p>
-        </div>
-    </div>
-
-    <div class="sidebar-footer">
-        <div class="status-dot"></div>
-        <span>System online</span>
-    </div>
 </div>
 
 </body>
