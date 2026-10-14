@@ -1,10 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
 <body>
+
+<aside class="sidebar" th:fragment="sidebar">
+
+    <div class="brand">
+        <span class="brand-mark">&#9670;</span>
+        <span class="brand-name">Clear Trade Engine</span>
+    </div>
+
+    <nav class="nav-links">
+        <a href="/dashboard" class="nav-link"
+           th:classappend="${currentPage == 'dashboard'} ? 'is-active'">Dashboard</a>
+        <a href="/find-deals" class="nav-link"
+           th:classappend="${currentPage == 'find-deals'} ? 'is-active'">Find Deals</a>
+        <a href="/currency-trend-prediction" class="nav-link"
+           th:classappend="${currentPage == 'currency-trend-prediction'} ? 'is-active'">Currency Prediction</a>
+        <a href="/teu-calculator" class="nav-link"
+           th:classappend="${currentPage == 'teu-calculator'} ? 'is-active'">Route Calculator</a>
+    </nav>
+
+    <div class="sidebar-ai">
+        <div class="sidebar-ai-label">
+            <span class="status-dot"></span>
+            Trade AI Assistant
+        </div>
+
+        <form class="sidebar-ai-form" th:action="@{/ai-assistant}" method="post">
+            <input type="hidden" name="returnPage" th:value="${currentPage}">
+            <textarea name="query" rows="3" placeholder="Ask about shipping delays, customs, or currency trends..." required></textarea>
+            <button type="submit">Ask</button>
+        </form>
+
+        <div class="sidebar-ai-answer" th:if="${aiAnswer}">
+            <p class="sidebar-ai-answer-q" th:text="'&quot;' + ${aiQuestion} + '&quot;'"></p>
+            <p th:text="${aiAnswer}"></p>
+        </div>
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="status-dot"></div>
+        <span>System online</span>
+    </div>
+
+</aside>
 
 </body>
 </html>

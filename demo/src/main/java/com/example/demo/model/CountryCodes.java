@@ -21,7 +21,7 @@ public class CountryCodes {
     @Column(name = "currency_symbol")
     private String currencySymbol;
 
-    @Column(name = "current_conversion")
+    @Column(name = "current_conversion", precision = 19, scale = 6)
     private BigDecimal currentConversion;
 
     @Column(name = "continent")
