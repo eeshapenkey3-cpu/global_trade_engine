@@ -22,7 +22,6 @@ public class Gemini32Service{
     private final ObjectMapper jsonMapper = new ObjectMapper();
 
     public String askGemini32(String prompt){
-        System.out.println("KEY LENGTH: " + apiKey.length() + " | KEY: [" + apiKey + "]");
         Map<String, Object> requestBody = Map.of(
                 "model","gemini-3.8-flash",
                 "input", prompt

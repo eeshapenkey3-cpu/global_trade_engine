@@ -1,10 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Clear Trade Engine — AI Assistant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+
+<div class="app-shell">
+
+    <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+
+    <main class="main">
+
+        <header class="main-header">
+            <h1>Trade AI Assistant</h1>
+            <p>Ask about shipping delays, customs rules, or currency trends.</p>
+        </header>
+
+        <form class="ai-form" th:action="@{/ai-assistant}" method="post">
+            <textarea name="query" rows="4"
+                      placeholder="e.g. What usually causes delays at major container ports?"
+                      required th:text="${aiQuestion}"></textarea>
+            <button type="submit" class="primary-btn">Ask</button>
+        </form>
+
+        <div class="ai-response" th:if="${aiAnswer}">
+            <span class="result-rank">Answer</span>
+            <p th:text="${aiAnswer}"></p>
+        </div>
+
+    </main>
+
+</div>
 
 </body>
 </html>

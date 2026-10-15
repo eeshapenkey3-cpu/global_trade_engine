@@ -51,19 +51,19 @@ public class DashboardController {
             @RequestParam String destinationPort, //extracts the text entered by the user in the browser
             @RequestParam String category,
             Model model) {
-        model.addAttribute("categories",productCategoryService.getAllCategoryNames());
+        model.addAttribute("categories", productCategoryService.getAllCategoryNames());
         double productPrice = productCategoryService.getCategoryValue(category);
 
         List<String> destinationPorts = shippingRouteRepository.findAll().stream()
-                        .map(ShippingRoute::getDestinationPort)
-                        .distinct()
-                        .sorted()
-                        .collect(Collectors.toList());
+                .map(ShippingRoute::getDestinationPort)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
 
         model.addAttribute("product", category); //UI mirrors the input so it doesnt forget
         model.addAttribute("productPrice", productPrice);
         model.addAttribute("destinationPort", destinationPort);
-        model.addAttribute("destinationPorts",destinationPorts);
+        model.addAttribute("destinationPorts", destinationPorts);
 
         List<ShippingRoute> possibleRoutes = findDealService.findAndRankDeals(destinationPort, productPrice);
 
@@ -73,8 +73,10 @@ public class DashboardController {
         }
 
         model.addAttribute("topDeal", possibleRoutes.get(0)); // initially as 0; marker
-        if (possibleRoutes.size() > 1) model.addAttribute("secondDeal", possibleRoutes.get(1)); //incase theres more than expected routes
-        if (possibleRoutes.size() > 2) model.addAttribute("thirdDeal", possibleRoutes.get(2)); //even if it calculates 100 routes, only 4 is shown
+        if (possibleRoutes.size() > 1)
+            model.addAttribute("secondDeal", possibleRoutes.get(1)); //incase theres more than expected routes
+        if (possibleRoutes.size() > 2)
+            model.addAttribute("thirdDeal", possibleRoutes.get(2)); //even if it calculates 100 routes, only 4 is shown
         if (possibleRoutes.size() > 3) model.addAttribute("fourthDeal", possibleRoutes.get(3));
 
         model.addAttribute("calculationSuccess", true);
@@ -98,66 +100,53 @@ public class DashboardController {
     public String currencyConverterPage(
             @RequestParam(required = false) String currency, //grabs word after ?currency; not required so page works fine even w/out chosen currency
             Model model) {//model = data passed by controller to be diplayed in html
-        model.addAttribute("currentPage","currency-trend-prediction");
+        model.addAttribute("currentPage", "currency-trend-prediction");
         if (currency != null && !currency.isBlank()) { //only bothers attribute if something is ther
             model.addAttribute("selectedCurrency", currency); //decides to show the chart
         }
         return "currency-trend-prediction";
     }
 
-        @GetMapping("/teu-calculator")
-        public String teuCalculatorPage(Model model) {
+    @GetMapping("/teu-calculator")
+    public String teuCalculatorPage(Model model) {
 
-            model.addAttribute("allRoutes",shippingRouteRepository.findAll());
-            model.addAttribute("allCountries",countryCodesRepository.findAll());
-            model.addAttribute("categories",productCategoryService.getAllCategoryNames());
-            model.addAttribute("currentPage","teu-calculator");
-            return "teu-calculator";
-        }
-
-        @PostMapping("/teu-calculator")
-        public String calculateTeu(
-                @RequestParam String routeId,
-                @RequestParam String category,
-                @RequestParam double cargoWeight,
-                @RequestParam String targetCountry,
-                Model model){
-            model.addAttribute("allRoutes",shippingRouteRepository.findAll());
-            model.addAttribute("allCountries",countryCodesRepository.findAll());
-            model.addAttribute("categories",productCategoryService.getAllCategoryNames());
-            model.addAttribute("currentPage","teu-calculator");
-
-            try{
-                double productPrice = productCategoryService.getCategoryValue(category);
-                ShippingRoute route = shippingRouteRepository.findByRouteId(routeId)
-                        .orElseThrow(() -> new RuntimeException("route not found: "+routeId));
-
-                double freightFeeUsd = currencyService.calculateAllocatedFreightFee(routeId, cargoWeight);
-
-                BigDecimal totalLandedCost = currencyService.calculateTotalLandedCostInLocalCurrency(
-                        routeId, productPrice, cargoWeight, targetCountry);
-
-                model.addAttribute("totalLandedCost", totalLandedCost);
-                model.addAttribute("freightFeeUsd",freightFeeUsd);
-                model.addAttribute("transitDays", route.getTransitDays());
-                model.addAttribute("targetCountryName",targetCountry);
-                model.addAttribute("routeLabel",route.getOriginPort() + " to "+route.getDestinationPort());
-            }catch(Exception e){
-                model.addAttribute("errorMessage",e.getMessage());
-            }
-            return "teu-calculator";
-        }
-
-    @PostMapping("/ai-assistant")
-    public String askAi(
-            @RequestParam String query,
-            @RequestParam(required = false) String returnPage,
-            RedirectAttributes redirectAttributes){
-        String answer = gemini32Service.askGemini32(query);
-
-        redirectAttributes.addFlashAttribute("aiAnswer",answer);
-        redirectAttributes.addFlashAttribute("aiQuestion",query);
-        String target = (returnPage != null && !returnPage.isBlank()) ? returnPage : "dashboard";
-        return "redirect:/" + target;
-        }
+        model.addAttribute("allRoutes", shippingRouteRepository.findAll());
+        model.addAttribute("allCountries", countryCodesRepository.findAll());
+        model.addAttribute("categories", productCategoryService.getAllCategoryNames());
+        model.addAttribute("currentPage", "teu-calculator");
+        return "teu-calculator";
     }
+
+    @PostMapping("/teu-calculator")
+    public String calculateTeu(
+            @RequestParam String routeId,
+            @RequestParam String category,
+            @RequestParam double cargoWeight,
+            @RequestParam String targetCountry,
+            Model model) {
+        model.addAttribute("allRoutes", shippingRouteRepository.findAll());
+        model.addAttribute("allCountries", countryCodesRepository.findAll());
+        model.addAttribute("categories", productCategoryService.getAllCategoryNames());
+        model.addAttribute("currentPage", "teu-calculator");
+
+        try {
+            double productPrice = productCategoryService.getCategoryValue(category);
+            ShippingRoute route = shippingRouteRepository.findByRouteId(routeId)
+                    .orElseThrow(() -> new RuntimeException("route not found: " + routeId));
+
+            double freightFeeUsd = currencyService.calculateAllocatedFreightFee(routeId, cargoWeight);
+
+            BigDecimal totalLandedCost = currencyService.calculateTotalLandedCostInLocalCurrency(
+                    routeId, productPrice, cargoWeight, targetCountry);
+
+            model.addAttribute("totalLandedCost", totalLandedCost);
+            model.addAttribute("freightFeeUsd", freightFeeUsd);
+            model.addAttribute("transitDays", route.getTransitDays());
+            model.addAttribute("targetCountryName", targetCountry);
+            model.addAttribute("routeLabel", route.getOriginPort() + " to " + route.getDestinationPort());
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+        }
+        return "teu-calculator";
+    }
+}
