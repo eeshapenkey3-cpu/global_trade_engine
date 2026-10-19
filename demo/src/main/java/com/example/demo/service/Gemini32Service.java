@@ -16,8 +16,9 @@ public class Gemini32Service{
     @Value("${gemini.api.key}")
     private String apiKey;
 
-    private final String apiUrl = "https://generativelanguage.googleapis.com/v1beta/interactions";
     private static final String MODEL = "gemini-3.8-flash";
+    private static final String API_URL =
+            "https://generativelanguage.googleapis.com/v1beta/models/" + MODEL + ":generateContent";
 
     private final RestClient restClient = RestClient.create();
     private final ObjectMapper jsonMapper = new ObjectMapper();
@@ -32,26 +33,26 @@ public class Gemini32Service{
 
         try{
             String rawJson = restClient.post()
-                    .uri(apiUrl)
-                    .header("x-goog-api-key",apiKey)
+                    .uri(API_URL)
+                    .header("x-goog-api-key",key)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(requestBody)
                     .retrieve()
                     .body(String.class);
 
-            JsonNode root = jsonMapper.readTree(rawJson);
+            JsonNode parts = jsonMapper.readTree(rawJson).path("candidates").path(0).path("content").path("parts");
 
-            JsonNode steps = root.path("steps");
-            return "AI responded, but in unexpected format: " + rawJson;
-
+            StringBuilder answer = new StringBuilder();
+            for(JsonNode part : parts){
+                if(part.has("text")){
+                    answer.append(part.get("text").asText());
+                }
+            }
+            return answer.length() > 0
+                    ? answer.toString()
+                    : "AI responded, but in unexpected format: "+rawJson;
         }catch(Exception e){
             return "AI assistant is temporarily unavailable: "+e.getMessage();
         }
-    }
-    private String mask(String k){
-        if(k.length()<10){
-            return "(too short: " + k.length() + " chars)";
-        }
-        return k.substring(0,5)+"..."+k.substring(k.length()-4);
     }
 }
