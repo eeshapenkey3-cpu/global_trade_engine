@@ -159,7 +159,7 @@ public class DashboardController {
     public String askAi(@RequestParam String query, Model model){
         model.addAttribute("currentPage","ai-assistant");
         model.addAttribute("aiQuestion",query);
-        model.addAttribute("aiAswer",gemini32Service.askGemini32(query));
+        model.addAttribute("aiAnswer",gemini32Service.askGemini32(query));
         return "ai-assistant";
     }
 }
