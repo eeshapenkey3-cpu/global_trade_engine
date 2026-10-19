@@ -149,4 +149,17 @@ public class DashboardController {
         }
         return "teu-calculator";
     }
+    @GetMapping("/ai-assistant")
+    public String aiPage(Model model){
+        model.addAttribute("currentPage","ai-assistant");
+        return "ai-assistant";
+    }
+
+    @PostMapping("/ai-assistant")
+    public String askAi(@RequestParam String query, Model model){
+        model.addAttribute("currentPage","ai-assistant");
+        model.addAttribute("aiQuestion",query);
+        model.addAttribute("aiAswer",gemini32Service.askGemini32(query));
+        return "ai-assistant";
+    }
 }

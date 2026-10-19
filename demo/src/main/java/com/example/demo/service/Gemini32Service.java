@@ -17,11 +17,14 @@ public class Gemini32Service{
     private String apiKey;
 
     private final String apiUrl = "https://generativelanguage.googleapis.com/v1beta/interactions";
+    private static final String MODEL = "gemini-3.8-flash";
 
     private final RestClient restClient = RestClient.create();
     private final ObjectMapper jsonMapper = new ObjectMapper();
 
     public String askGemini32(String prompt){
+        String key = (apiKey == null) ? "" : apiKey.trim();
+
         Map<String, Object> requestBody = Map.of(
                 "model","gemini-3.8-flash",
                 "input", prompt
@@ -39,7 +42,7 @@ public class Gemini32Service{
             JsonNode root = jsonMapper.readTree(rawJson);
 
             JsonNode steps = root.path("steps");
-            for(JsonNode step : steps){
+            for(JsonNode step : root.path("steps")){//??
                 if("model_output".equals(step.path("type").asText())){
                     JsonNode content = step.path("content");
                     if(content.isArray() && content.size() > 0){
@@ -51,5 +54,11 @@ public class Gemini32Service{
         }catch(Exception e){
             return "AI assistant is temporarily unavailable: "+e.getMessage();
         }
+    }
+    private String mask(String k){
+        if(k.length()<10){
+            return "(too short: )" + k.length() + " chars)";
+        }
+        return k.substring(0,5)+"..."+k.substring(k.length()-4);
     }
 }
