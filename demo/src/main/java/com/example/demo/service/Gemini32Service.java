@@ -14,15 +14,17 @@ public class Gemini32Service {
     @Value("${gemini.api.key}")
     private String apiKey;
 
-    private static final String MODEL = "gemini-3.8-flash";
+    @Value("${gemini.api.url}")
+    private String apiUrl;
+
+//    private static final String MODEL = "gemini-3.8-flash";
+//    private static final String API_URL =
+//            "https://googleapis.com" + MODEL + ":generateContent";
 
     private final RestClient restClient = RestClient.create();
 
     public String askGemini32(String prompt) {
         String key = (apiKey == null) ? "" : apiKey.trim();
-
-        String API_URL =
-                "https://googleapis.com" + MODEL + ":generateContent";
 
         Map<String, Object> requestBody = Map.of(
                 "contents", List.of(
@@ -34,7 +36,7 @@ public class Gemini32Service {
 
         try {
             Map responseMap = restClient.post()
-                    .uri(URI.create(API_URL))
+                    .uri(URI.create(apiUrl.trim()))
                     .header("x-goog-api-key", key)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(requestBody)
