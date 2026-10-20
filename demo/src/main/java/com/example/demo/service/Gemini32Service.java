@@ -15,13 +15,14 @@ public class Gemini32Service {
     private String apiKey;
 
     private static final String MODEL = "gemini-3.8-flash";
-    private static final String API_URL =
-            "https://googleapis.com" + MODEL + ":generateContent";
 
     private final RestClient restClient = RestClient.create();
 
     public String askGemini32(String prompt) {
         String key = (apiKey == null) ? "" : apiKey.trim();
+
+        String API_URL =
+                "https://googleapis.com" + MODEL + ":generateContent";
 
         Map<String, Object> requestBody = Map.of(
                 "contents", List.of(
@@ -39,7 +40,7 @@ public class Gemini32Service {
                     .body(requestBody)
                     .retrieve()
                     .body(Map.class);
-            
+
             List candidates = (List) responseMap.get("candidates");
             Map firstCandidate = (Map) candidates.get(0);
             Map content = (Map) firstCandidate.get("content");
