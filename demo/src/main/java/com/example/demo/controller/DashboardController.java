@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.List;
 import java.math.BigDecimal;
@@ -159,7 +160,9 @@ public class DashboardController {
     public String askAi(@RequestParam String query, Model model){
         model.addAttribute("currentPage","ai-assistant");
         model.addAttribute("aiQuestion",query);
-        model.addAttribute("aiAnswer",gemini32Service.askGemini32(query));
+
+        String extractedText = gemini32Service.askGemini32(query);
+        model.addAttribute("aiAnswer", extractedText);
         return "ai-assistant";
     }
 }
