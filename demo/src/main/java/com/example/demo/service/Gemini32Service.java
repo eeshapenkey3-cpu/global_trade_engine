@@ -14,9 +14,6 @@ public class Gemini32Service {
     @Value("${gemini.api.key}")
     private String apiKey;
 
-    @Value("${gemini.api.url}")
-    private String apiUrl;
-
     private static final String MODEL = "gemini-3.8-flash";
     private static final String API_URL =
             "https://generativelanguage.googleapis.com/v1beta/models/" + MODEL + ":generateContent";
@@ -24,48 +21,51 @@ public class Gemini32Service {
     private final RestClient restClient = RestClient.create();
 
     public String askGemini32(String query) {
-        Map<String, Object> textMap = Map.of("text",query);
-        Map<String, Object> partsMap = Map.of("parts",List.of(textMap));
-        Map<String, Object> requestBody = Map.of("contents", List.of(partsMap));
+        Map<String, Object> requestBody = Map.of(
+                "contents", List.of(
+                        Map.of("parts", List.of(Map.of("text", query)))
+                )
+        );
 
         String key = (apiKey == null) ? "" : apiKey.trim();
-        String targetedUrl = API_URL + "?key=" + key.trim();
 
         try {
-            Map responseMap = restClient.post()
-                    .uri(URI.create(targetedUrl))
-                    .header("authorization",null)
+            Map<?, ?> responseMap = restClient.post()
+                    .uri(API_URL)
+                    .header("x-goog-api-key", key)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(requestBody)
                     .retrieve()
                     .body(Map.class);
 
-            if(responseMap == null){
-                return "error";
-            }
-            if(responseMap.containsKey("error")){
-                Map<?,?> errorObj = (Map<?,?>) responseMap.get("error");
-                return "API error " + errorObj.get("message");
+            if (responseMap == null) {
+                return "Error: empty response.";
             }
 
             List<?> candidates = (List<?>) responseMap.get("candidates");
             if (candidates == null || candidates.isEmpty()) {
-                return "Error: No text candidates returned. Raw response: " + responseMap.toString();
+                return "Error: no candidates returned. Raw response: " + responseMap;
             }
 
-            Map<?, ?> firstCandidate = (Map<?, ?>) candidates.get(0);
-            Map<?, ?> content = (Map<?, ?>) firstCandidate.get("content");
+            Map<?, ?> content = (Map<?, ?>) ((Map<?, ?>) candidates.get(0)).get("content");
             if (content == null) {
-                return "Error: Candidate content block missing.";
+                return "Error: candidate content missing.";
             }
 
             List<?> parts = (List<?>) content.get("parts");
             if (parts == null || parts.isEmpty()) {
-                return "Error: Content parts block missing.";
+                return "Error: content parts missing.";
             }
 
-            Map<?, ?> firstPart = (Map<?, ?>) parts.get(0);
-            return (String) firstPart.get("text");
+            StringBuilder answer = new StringBuilder();
+            for (Object p : parts) {
+                Object text = ((Map<?, ?>) p).get("text");
+                if (text != null) {
+                    answer.append(text);
+                }
+            }
+            return answer.length() > 0 ? answer.toString() : "Error: no text in response.";
+
         } catch (Exception e) {
             return "HTTP request failed: " + e.getMessage();
         }
