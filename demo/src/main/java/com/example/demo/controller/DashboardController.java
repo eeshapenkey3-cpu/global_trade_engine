@@ -99,7 +99,7 @@ public class DashboardController {
 
     @GetMapping("/currency-trend-prediction")
     public String currencyConverterPage(
-            @RequestParam(required = false) String currency, //grabs word after ?currency; not required so page works fine even w/out chosen currency
+            @RequestParam(required = false) String currency, //grabs word after ?currency; not required so page works fine w/out chosen currency
             Model model) {//model = data passed by controller to be diplayed in html
         model.addAttribute("currentPage", "currency-trend-prediction");
         if (currency != null && !currency.isBlank()) { //only bothers attribute if something is ther
