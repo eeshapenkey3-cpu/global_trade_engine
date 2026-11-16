@@ -12,7 +12,7 @@ import java.net.URI;
 @Service
 public class Gemini32Service {
 
-    @Value("AQ.Ab8RN6LXKA360BkLKZW6oV4I6R-D7g5vcEFA8KvuviYCgGRBhg")
+    @Value("${gemini.api.key}")
     private String apiKey;
 
     private static final String MODEL = "gemini-3.8-flash";
