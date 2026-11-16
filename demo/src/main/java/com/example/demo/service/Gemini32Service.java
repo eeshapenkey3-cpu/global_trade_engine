@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClient;
@@ -19,7 +20,16 @@ public class Gemini32Service {
     private static final String API_URL =
             "https://generativelanguage.googleapis.com/v1beta/models/" + MODEL + ":generateContent";
 
-    private final RestClient restClient = RestClient.create();
+    private final RestClient restClient = RestClient.builder()
+            .requestFactory(timeoutFactory())
+            .build();
+
+    private static SimpleClientHttpRequestFactory timeoutFactory() {
+        SimpleClientHttpRequestFactory f = new SimpleClientHttpRequestFactory();
+        f.setConnectTimeout(java.time.Duration.ofSeconds(10));
+        f.setReadTimeout(java.time.Duration.ofSeconds(45));
+        return f;
+    }
 
     public String askGemini32(String query) {
         Map<String, Object> requestBody = Map.of(
